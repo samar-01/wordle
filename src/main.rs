@@ -62,7 +62,7 @@ fn main() {
 						}
 					}
 				});
-				*l1[i as usize].lock().unwrap() = entropy;
+				*l1[i].lock().unwrap() = entropy;
 			});
 		let l2: Vec<Option<f64>> = l1
 			.par_iter()
@@ -173,7 +173,7 @@ fn main() {
 							}
 						}
 					});
-					*l1[i as usize].lock().unwrap() = Some(entropy);
+					*l1[i].lock().unwrap() = Some(entropy);
 					// dbg!(total);
 				});
 			l2 = l1

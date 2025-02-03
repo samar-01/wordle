@@ -54,10 +54,8 @@ pub fn gen_color_perms() -> HashMap<[Color; SIZE], Mutex<i32>> {
 	colors
 		.into_iter()
 		.permutations(SIZE)
-		// .unique() // Ensure uniqueness
-		.enumerate()
 		// .par_bridge()
-		.map(|(_index, perm)| {
+		.map(|perm| {
 			let mut array = [Color::Green; SIZE];
 			for (i, &color) in perm.iter().enumerate() {
 				array[i] = color;
@@ -161,7 +159,7 @@ pub fn cmp_words_hash(real: &[char; SIZE], input: &[char; SIZE]) -> [Color; SIZE
 	{
 		map.insert((*real, *input), x);
 	}
-	return x;
+	x
 }
 
 pub fn cmp_words(real: &[char], input: &[char]) -> [Color; SIZE] {

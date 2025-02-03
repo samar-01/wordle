@@ -42,7 +42,7 @@ fn calc_entropy(c: &mut Criterion) {
 	let words = load("words.txt".to_string());
 	let count = words.len();
 	let perms = gen_color_perms();
-	let input = words.get(1).unwrap().clone();
+	let input = *words.get(1).unwrap();
 	c.bench_function("Calculate entropy mutex", |b| {
 		b.iter(|| {
 			words.par_iter().for_each(|f| {
@@ -54,7 +54,7 @@ fn calc_entropy(c: &mut Criterion) {
 					}
 				}
 			});
-			let mut entropy = AtomicI32::new(0);
+			let entropy = AtomicI32::new(0);
 			perms.values().par_bridge().for_each(|f| {
 				let v;
 				{
@@ -80,10 +80,10 @@ fn calc_entropy2(c: &mut Criterion) {
 	let words = load("words.txt".to_string());
 	let count = words.len();
 	// let perms = gen_color_perms();
-	let input = words.get(0).unwrap();
+	let input = words.first().unwrap();
 	c.bench_function("Calculate entropy atomic", |b| {
 		b.iter(|| {
-			let list = [const { AtomicI32::new(0 as i32) }; LEN as usize];
+			let list = [const { AtomicI32::new(0_i32) }; LEN as usize];
 			words.par_iter().for_each(|f| {
 				let real = f;
 				let res = cmp_words(real, input);
@@ -119,7 +119,7 @@ fn calc_all_entropy(c: &mut Criterion) {
 	c.bench_function("Calc all entropy", |b| {
 		b.iter(|| {
 			words.par_iter().for_each(|input| {
-				let list = [const { AtomicI32::new(0 as i32) }; LEN as usize];
+				let list = [const { AtomicI32::new(0_i32) }; LEN as usize];
 				words.iter().for_each(|f| {
 					let real = f;
 					let res = cmp_words(real, input);
