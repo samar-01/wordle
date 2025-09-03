@@ -2,6 +2,7 @@ use dashmap::DashMap;
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use std::i32;
+use std::io::{stdin, BufRead, Sink};
 use std::sync::Mutex;
 use std::{collections::HashMap, fs};
 
@@ -188,6 +189,28 @@ pub fn cmp_words(real: &[char], input: &[char]) -> [Color; SIZE] {
 	}
 
 	result
+}
+
+pub fn cmp_words_inp(_real: &[char], input: &[char]) -> [Color; SIZE] {
+	println!("{}", char_to_str(input));
+	let stdin = stdin();
+	for line in stdin.lock().lines() {
+		// println!("{}", line.unwrap());
+		let x = line.unwrap();
+		return x
+			.chars()
+			.map(|f| match f {
+				'g' => Color::Green,
+				'y' => Color::Yellow,
+				_ => Color::Grey,
+			})
+			.collect::<Vec<_>>()
+			.try_into()
+			.unwrap();
+		// break;
+	}
+	return [Color::Grey; SIZE];
+	// todo!();
 }
 
 pub fn res_to_num(a: [Color; SIZE]) -> i32 {

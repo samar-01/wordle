@@ -94,18 +94,19 @@ fn main() {
 		choice: [char; SIZE],
 		res: [Color; SIZE],
 	}
+	let mut c = 0;
 
 	let mut results = vec![];
 	// {let real = words.get(2314).unwrap();
-	{
-		let real = &convert1("among");
+	{let real = &convert1("among");
 		// for real in words.iter().take(4) {
 		// for real in &words {
 		clearscreen::clear().expect("failed to clear screen");
-		println!("{:?}", char_to_str(real));
+		c+=1;
+		// println!("{:?}", char_to_str(real));
 		let mut l2 = lookup.clone();
 		let mut choices = vec![];
-
+		// choices.push(Rex{choice:convert1("raise"), res:[Color::Grey,Color::Grey,Color::Grey,Color::Grey,Color::Grey]});
 		let maxtires = 10;
 		for n in 1..=maxtires {
 			if n >= maxtires {
@@ -121,14 +122,16 @@ fn main() {
 			// dbg!(max);
 			let i = l2.iter().position(|&f| f >= max).unwrap();
 			let choice = *words.get(i).unwrap();
-			let res = cmp_words(real, &choice);
+			// println!("{}", max.unwrap());
+			let res = cmp_words_inp(real, &choice);
+			// let res = cmp_words(real, &choice);
 			println!(
-				"{} {:?} {}",
+				"{} {:?}",
 				color_to_str(res),
 				char_to_str(&choice),
-				max.unwrap()
+				// max.unwrap()
 			);
-			if choice == *real {
+			if choice == *real || res == [Color::Green;SIZE]{
 				results.push(n);
 				break;
 			}
@@ -197,7 +200,7 @@ fn main() {
 	}
 	dbg!(max);
 	dbg!(min);
-	dbg!(total as f64 / count as f64);
+	dbg!(total as f64 / c as f64);
 
 	let duration = start.elapsed();
 	println!("Time elapsed is: {:?}", duration);
