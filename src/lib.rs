@@ -2,7 +2,7 @@ use dashmap::DashMap;
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use std::i32;
-use std::io::{stdin, BufRead, Sink};
+use std::io::{stdin, BufRead};
 use std::sync::Mutex;
 use std::{collections::HashMap, fs};
 
@@ -46,7 +46,7 @@ pub fn gen_color_perms() -> HashMap<[Color; SIZE], Mutex<i32>> {
 
 	let colors = colors
 		.iter()
-		.flat_map(|&x| std::iter::repeat(x).take(SIZE))
+		.flat_map(|&x| std::iter::repeat_n(x, SIZE))
 		.collect::<Vec<_>>();
 	// for i in 0..SIZE {
 	// 	repeated_colors[i] = colors[i]; // Repeating each color
@@ -194,7 +194,7 @@ pub fn cmp_words(real: &[char], input: &[char]) -> [Color; SIZE] {
 pub fn cmp_words_inp(_real: &[char], input: &[char]) -> [Color; SIZE] {
 	println!("{}", char_to_str(input));
 	let stdin = stdin();
-	for line in stdin.lock().lines() {
+	if let Some(line) = stdin.lock().lines().next() {
 		// println!("{}", line.unwrap());
 		let x = line.unwrap();
 		return x
@@ -209,7 +209,7 @@ pub fn cmp_words_inp(_real: &[char], input: &[char]) -> [Color; SIZE] {
 			.unwrap();
 		// break;
 	}
-	return [Color::Grey; SIZE];
+	[Color::Grey; SIZE]
 	// todo!();
 }
 
