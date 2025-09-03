@@ -98,11 +98,12 @@ fn main() {
 
 	let mut results = vec![];
 	// {let real = words.get(2314).unwrap();
-	{let real = &convert1("among");
+	{
+		let real = &convert1("among");
 		// for real in words.iter().take(4) {
 		// for real in &words {
 		clearscreen::clear().expect("failed to clear screen");
-		c+=1;
+		c += 1;
 		// println!("{:?}", char_to_str(real));
 		let mut l2 = lookup.clone();
 		let mut choices = vec![];
@@ -131,7 +132,7 @@ fn main() {
 				char_to_str(&choice),
 				// max.unwrap()
 			);
-			if choice == *real || res == [Color::Green;SIZE]{
+			if choice == *real || res == [Color::Green; SIZE] {
 				results.push(n);
 				break;
 			}
